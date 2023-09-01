@@ -33,14 +33,14 @@ Stateless한 방법을 구상한다면 -> 값을 예측할 수 있다 -> 부수�
 ```typescript
 // 새로운 배열을 다시 반환 함 (Copy-On-Write)
 function add_element_last(array: string[], elem: string) {
-  return [...array, elem];
+  return [...array, elem]
 }
 ```
 
 ```typescript
 // 새로운 배열을 다시 반환 함 (Copy-On-Write)
 function remove_item_by_name(cart: string[], name: string) {
-  return cart.filter((name) => name !== name);
+  return cart.filter((name) => name !== name)
 }
 ```
 
@@ -89,16 +89,16 @@ function remove_item_by_name(cart: string[], name: string) {
     - Copy-on-Write 형태내에서 값은 최신상태를 유지하도록 관리한다.
 
 ```typescript
-const shoppingList = [];
+const shoppingList = []
 
 const addToShoppingList = (shoppingList: stirng[], shopping: string) => {
   /*
    * Copy-on-Wirte
    */
-  return newShoppintList;
-};
+  return newShoppintList
+}
 
-shoppintList = addToShoppingList(shoppingList, "new"); // 새로운값으로 계속 대체된다.
+shoppintList = addToShoppingList(shoppingList, 'new') // 새로운값으로 계속 대체된다.
 ```
 
 > 불변의 데이터는 효율적인가?
@@ -122,34 +122,34 @@ shoppintList = addToShoppingList(shoppingList, "new"); // 새로운값으로 계
 
 ```typescript
 // 기존의 Copy-on-Write
-const a = [1, 2, 3, 4, 5];
-const b = a.map((it) => it + 10);
+const a = [1, 2, 3, 4, 5]
+const b = a.map((it) => it + 10)
 ```
 
 ```typescript
 // Example 1) 객체의 Copy-on-Write
 const a = {
-  name: "leedonggyu",
-  job: "programmer",
-};
+  name: 'leedonggyu',
+  job: 'programmer',
+}
 
 const b = {
   ...a,
-  name: "leedonggyu-2",
-  job: "promgrammer-2",
-};
+  name: 'leedonggyu-2',
+  job: 'promgrammer-2',
+}
 
-console.log(b);
+console.log(b)
 ```
 
 ```typescript
 // Example 2) 객체의 Copy-on-Write
 const a = {
-  name: "leedonggyu",
-  job: "programmer",
-};
+  name: 'leedonggyu',
+  job: 'programmer',
+}
 
-const b = Object.assign(a, { name: "leedonggyu-2", job: "programmer-2" });
+const b = Object.assign(a, { name: 'leedonggyu-2', job: 'programmer-2' })
 ```
 
 > 자바스크립트를 사용하다보면 많이 쓰는 함수 (실무에서도 많이 사용함)
@@ -158,6 +158,22 @@ const b = Object.assign(a, { name: "leedonggyu-2", job: "programmer-2" });
 - Object.values()
 - Object.entries()
 - Object.assign()
+  - 객체의 단순 복사본을 생성 => 원본 객체를 수정하지 않는다.
+  - 새 개체를 생성한다
+  - 즉, 값을 복사하는 얕은복사이지만, 새 개체느느 메모리에 있는 별도의 개체다
+
+> 얕은 복사 vs 깊은 복사
+
+- 공통점
+
+  - 자바스크립트의 얕복, 깊복은 기존객체를 건드리지 않고 새로운 객체를 생성한다는 점에서는 같다.
+
+- 차이점
+
+  - 복사된 구조내에서 중첨된 개체를 처리하는 방법의 차이가 존재
+
+- Example
+  - [Shallow_copy_Deep_copy](./example_5.ts)
 
 > 중첩된 쓰기를 읽기로 바꾸기
 
@@ -166,7 +182,7 @@ const b = Object.assign(a, { name: "leedonggyu-2", job: "programmer-2" });
 function setPriceByName(cart, name, price) {
   for (var i = 0; i < cart.length; i++) {
     if (cart[i].name === name) {
-      cart[i].price = price;
+      cart[i].price = price
     }
   }
 }
@@ -176,18 +192,18 @@ function setPriceByName(cart, name, price) {
   // Copy-on-Wirte 형식으로 변경
   return cart.map((it) => {
     if (it == name) {
-      setPrice(it, price);
+      setPrice(it, price)
     }
 
-    return it;
-  });
+    return it
+  })
 }
 
 function setPrice(item, new_price) {
   // 값을 변경하는 부분도 Copy-on-Write
   return Object.assign(item, {
     price: new_price,
-  });
+  })
 }
 ```
 
